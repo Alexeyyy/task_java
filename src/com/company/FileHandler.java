@@ -9,6 +9,7 @@ import java.util.HashMap;
  * Created by Alex on 29.07.2014.
  */
 public class FileHandler {
+    //Запись словаря из файла
     public static void RetrieveDataToDictionary(String fPath, HashMap fMap) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fPath)))
         {
@@ -24,6 +25,7 @@ public class FileHandler {
         }
     }
 
+    //Загрузка текста для обработки из файла
     public static String LoadText(String fPath)
     {
         StringBuilder sb = new StringBuilder();
