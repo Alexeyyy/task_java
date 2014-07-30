@@ -14,6 +14,40 @@ public class HtmlGenerator {
                     "</head>" +
                     "<body>";
     private static String htmlTemplateEnd = "</body>" + "</html>";
+    private static String htmlStyleStart = "<span style=\"font-weight: bold; font-style: italic\">";
+    private static String htmlStyleEnd = "</span>";
+
+    public static String HandleLine(String fLine, HashMap fDictionary)
+    {
+        StringBuilder line = new StringBuilder(fLine);
+
+        int i = 0;
+        int start, end;
+        while(i < line.length())
+        {
+            if(line.charAt(i) >= 'A' && line.charAt(i) <= 'z')
+            {
+                start = i;
+                while(line.charAt(i) >= 'A' && line.charAt(i) <= 'z')
+                {
+                    i++;
+                }
+                end = i;
+
+                System.out.println(line.substring(start, end).toString());
+
+                if(fDictionary.containsKey(line.substring(start, end).toString().toLowerCase()))
+                {
+                    line.insert(start, htmlStyleStart);
+                    line.insert(end + htmlStyleStart.length(), htmlStyleEnd);
+                    i += (htmlStyleEnd.length() + htmlStyleStart.length());
+                }
+            }
+            i++;
+        }
+
+        return line.toString();
+    }
 
     public static void GenerateHtml(String fFileIn, HashMap fDictionary, int fLinesQuantity)
     {
@@ -28,8 +62,10 @@ public class HtmlGenerator {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter("d:/" + name + ".html", true))) {
                     System.out.println(line);
                     if (line_counter == 0)
-                        writer.write(htmlTemplateBegin);
+                        writer.write(htmlTemplateBegin + "\n");
 
+                    //Обработка линии
+                    line = HandleLine(line, fDictionary);
                     //Запись линии в файл
                     writer.write(line + "\n");
                     line_counter++;

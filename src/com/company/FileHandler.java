@@ -16,7 +16,7 @@ public class FileHandler {
             String word = "";
             while((word = reader.readLine()) != null)
             {
-                fMap.put(word,word);
+                fMap.put(word.toLowerCase(),word.toLowerCase());
             }
         }
         catch (IOException e)

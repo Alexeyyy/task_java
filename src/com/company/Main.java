@@ -11,13 +11,9 @@ import java.util.HashMap;
 
 public class Main {
     private static HashMap dictionary = new HashMap();
-    private static String text = "";
 
     public static void main(String[] args) {
-        /*FileHandler.RetrieveDataToDictionary("d:/file_java.txt", dictionary);
-        text = FileHandler.LoadText("d:/file_java.txt");
-        System.out.println(dictionary.size());
-        System.out.println(text);*/
+        FileHandler.RetrieveDataToDictionary("d:/dictionary.txt", dictionary);
         HtmlGenerator.GenerateHtml("d:/file_java.txt", dictionary, 20);
     }
 }
