@@ -19,6 +19,9 @@ public class HtmlGenerator {
 
     public static String HandleLine(String fLine, HashMap fDictionary)
     {
+        if(fLine == "")
+            return "";
+
         StringBuilder line = new StringBuilder(fLine);
 
         int i = 0;
@@ -28,13 +31,11 @@ public class HtmlGenerator {
             if(line.charAt(i) >= 'A' && line.charAt(i) <= 'z')
             {
                 start = i;
-                while(line.charAt(i) >= 'A' && line.charAt(i) <= 'z')
+                while( i < line.length() && line.charAt(i) >= 'A' && line.charAt(i) <= 'z')
                 {
                     i++;
                 }
                 end = i;
-
-                System.out.println(line.substring(start, end).toString());
 
                 if(fDictionary.containsKey(line.substring(start, end).toString().toLowerCase()))
                 {
@@ -54,35 +55,78 @@ public class HtmlGenerator {
         try(BufferedReader inStream = new BufferedReader(new FileReader(fFileIn)))
         {
             String line = "";
-            int line_counter = 0;
+            int line_counter = 1;
             int name = 0;
+            String partial_line_left = "";
+            String partial_line_right = "";
 
-            while((line = inStream.readLine()) != null)
+            while ((line = inStream.readLine()) != null)
             {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("d:/" + name + ".html", true))) {
-                    System.out.println(line);
-                    if (line_counter == 0)
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".html", true)))
+                {
+                    if (line_counter == 1)
+                    {
                         writer.write(htmlTemplateBegin + "\n");
-
-                    //Обработка линии
-                    line = HandleLine(line, fDictionary);
-                    //Запись линии в файл
-                    writer.write(line + "\n");
-                    line_counter++;
-
-                    if (line_counter >= fLinesQuantity) {
-                        writer.write(htmlTemplateEnd);
-                        name++;
-                        line_counter = 0;
+                        //если имел место перенос строки то
+                        if (partial_line_right.length() != 0)
+                            writer.write(partial_line_right + "\n");
                     }
+                    //Пока не граница, продолжаем обработку в обычном режиме
+                    if (line_counter < fLinesQuantity)
+                    {
+                        //Обработка линии
+                        line = HandleLine(line, fDictionary);
+                        //Запись линии в файл
+                        writer.write(line + "\n");
+                    }
+                    //Граница - занимаемся поиском точки, чтобы избежать переноса предложения
+                    else if (line_counter == fLinesQuantity)
+                    {
+                        if (line.indexOf('.') != -1)
+                        {
+                            partial_line_left = HandleLine(line.substring(0, line.indexOf('.') + 1), fDictionary);
+                            partial_line_right = HandleLine(line.substring(line.indexOf('.') + 1, line.length()), fDictionary);
+                            writer.write(partial_line_left + "\n");
+                            name++;
+                            line_counter = 1;
+                            writer.write(htmlTemplateEnd);
+                            continue;
+                        }
+                        else
+                        {
+                            writer.write(HandleLine(line, fDictionary));
+                            while ((line = inStream.readLine()) != null)
+                            {
+                                if (line.indexOf('.') != -1)
+                                {
+                                    partial_line_left = HandleLine(line.substring(0, line.indexOf('.') + 1), fDictionary);
+                                    partial_line_right = HandleLine(line.substring(line.indexOf('.') + 1, line.length()), fDictionary);
+                                    writer.write(partial_line_left + "\n");
+                                    writer.write(htmlTemplateEnd);
+                                    name++;
+                                    line_counter = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    writer.write(HandleLine(line, fDictionary));
+                                }
+                                line_counter++;
+                            }
+                            continue;
+                        }
+                    }
+                    line_counter++;
                 }
             }
 
-            //Дописывает htmlTemplateEnd в конец последнего сгенерированного файла
-            BufferedWriter writer = new BufferedWriter(new FileWriter("d:/" + name + ".html", true));
-            writer.write(htmlTemplateEnd);
-            writer.close();
-
+            //для случая, когда line_counter < fLinesQuantity соблюдается до конца записи
+            if (line_counter != fLinesQuantity && fLinesQuantity != 1)
+            {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".html", true));
+                writer.write(htmlTemplateEnd);
+                writer.close();
+            }
         }
         catch (IOException e)
         {
