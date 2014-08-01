@@ -8,7 +8,17 @@ public class Main
 
     public static void main(String[] args)
     {
-        FileHandler.RetrieveDataToDictionary("dictionary.txt", dictionary);
-        HtmlGenerator.GenerateHtml("book.txt", dictionary, 800);
+        if(args.length != 0)
+        {
+            for(int i = 0; i < args.length; i++)
+            {
+                System.out.println(args[i]);
+            }
+        }
+        FileHandler.RetrieveDataToDictionary(args[0], dictionary);
+        HtmlGenerator.GenerateHtml(args[1], dictionary, 800);
     }
 }
+
+//"dictionary.txt"
+//"book.txt"
