@@ -3,9 +3,7 @@ package com.company;
 import java.io.*;
 import java.util.HashMap;
 
-/**
- * Created by Alex on 30.07.2014.
- */
+//Класс, обеспечивающий генерацию html-файлов на базе загруженного текста
 public class HtmlGenerator {
     private static String htmlTemplateBegin =
             "<html>" +
@@ -50,7 +48,7 @@ public class HtmlGenerator {
         return line.toString();
     }
 
-    public static void GenerateHtml(String fFileIn, HashMap fDictionary, int fLinesQuantity)
+    public static void GenerateHtml(String fFileIn, String fFileOut, HashMap fDictionary, int fLinesQuantity)
     {
         try(BufferedReader inStream = new BufferedReader(new FileReader(fFileIn)))
         {
@@ -62,14 +60,14 @@ public class HtmlGenerator {
 
             while ((line = inStream.readLine()) != null)
             {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".html", true)))
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(fFileOut + name + ".html", true)))
                 {
                     if (line_counter == 1)
                     {
-                        writer.write(htmlTemplateBegin + "\n");
+                        writer.write(htmlTemplateBegin + "<br/>");
                         //если имел место перенос строки то
                         if (partial_line_right.length() != 0)
-                            writer.write(partial_line_right + "\n");
+                            writer.write(partial_line_right + "<br/>");
                     }
                     //Пока не граница, продолжаем обработку в обычном режиме
                     if (line_counter < fLinesQuantity)
@@ -77,7 +75,7 @@ public class HtmlGenerator {
                         //Обработка линии
                         line = HandleLine(line, fDictionary);
                         //Запись линии в файл
-                        writer.write(line + "\n");
+                        writer.write(line + "<br/>");
                     }
                     //Граница - занимаемся поиском точки, чтобы избежать переноса предложения
                     else if (line_counter == fLinesQuantity)
@@ -86,7 +84,7 @@ public class HtmlGenerator {
                         {
                             partial_line_left = HandleLine(line.substring(0, line.indexOf('.') + 1), fDictionary);
                             partial_line_right = HandleLine(line.substring(line.indexOf('.') + 1, line.length()), fDictionary);
-                            writer.write(partial_line_left + "\n");
+                            writer.write(partial_line_left + "<br/>");
                             name++;
                             line_counter = 1;
                             writer.write(htmlTemplateEnd);
@@ -94,14 +92,14 @@ public class HtmlGenerator {
                         }
                         else
                         {
-                            writer.write(HandleLine(line, fDictionary));
+                            writer.write(HandleLine(line, fDictionary) + "<br/>");
                             while ((line = inStream.readLine()) != null)
                             {
                                 if (line.indexOf('.') != -1)
                                 {
                                     partial_line_left = HandleLine(line.substring(0, line.indexOf('.') + 1), fDictionary);
                                     partial_line_right = HandleLine(line.substring(line.indexOf('.') + 1, line.length()), fDictionary);
-                                    writer.write(partial_line_left + "\n");
+                                    writer.write(partial_line_left + "<br/>");
                                     writer.write(htmlTemplateEnd);
                                     name++;
                                     line_counter = 1;
@@ -109,7 +107,7 @@ public class HtmlGenerator {
                                 }
                                 else
                                 {
-                                    writer.write(HandleLine(line, fDictionary));
+                                    writer.write(HandleLine(line, fDictionary) + "<br/>");
                                 }
                                 line_counter++;
                             }
@@ -123,7 +121,7 @@ public class HtmlGenerator {
             //для случая, когда line_counter < fLinesQuantity соблюдается до конца записи
             if (line_counter != fLinesQuantity && fLinesQuantity != 1)
             {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".html", true));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(fFileOut + name + ".html", true));
                 writer.write(htmlTemplateEnd);
                 writer.close();
             }

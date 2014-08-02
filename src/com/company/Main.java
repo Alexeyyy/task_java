@@ -8,17 +8,15 @@ public class Main
 
     public static void main(String[] args)
     {
-        if(args.length != 0)
+        try
         {
-            for(int i = 0; i < args.length; i++)
-            {
-                System.out.println(args[i]);
-            }
+            int lineQuantity = Integer.parseInt(args[3]);
+            FileHandler.RetrieveDataToDictionary(args[0], dictionary);
+            HtmlGenerator.GenerateHtml(args[1], args[2], dictionary, lineQuantity);
         }
-        FileHandler.RetrieveDataToDictionary(args[0], dictionary);
-        HtmlGenerator.GenerateHtml(args[1], dictionary, 800);
+        catch(Exception e)
+        {
+            System.out.println("Some wrong command line args... Try again please.");
+        }
     }
 }
-
-//"dictionary.txt"
-//"book.txt"
