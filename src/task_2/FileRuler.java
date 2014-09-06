@@ -1,7 +1,6 @@
 package task_2;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,8 +14,15 @@ public class FileRuler {
         directoryFiles = new ArrayList<File>();
     }
 
+    public ArrayList<File> getFoundFiles() {
+        if(directoryFiles.isEmpty())
+            return null;
+        else
+            return directoryFiles;
+    }
+
     //Записывает файлы в список, если по указанному пути находится директория
-    public boolean GetDirectoryFiles(String path) {
+    public boolean getDirectoryFiles(String path) {
         File item = new File(path);
         if(item.isDirectory()) {
             directoryFiles = new ArrayList<File>(Arrays.asList(item.listFiles()));
@@ -27,7 +33,7 @@ public class FileRuler {
     }
 
     //Печатает все найденные файлы
-    public void PrintFilesList() {
+    public void printFilesList() {
         if(!directoryFiles.isEmpty()) {
             for(File item : directoryFiles) {
                 if(item.isFile()) {
