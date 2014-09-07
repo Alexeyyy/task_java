@@ -62,7 +62,6 @@ public class MyThread extends Thread {
                 writer.close();
 
                 saveData(item, tmpFile);
-
             } catch (FileNotFoundException e) {
                 System.out.println(this.getName() + " : " + e.getMessage());
             } catch (IOException e) {
