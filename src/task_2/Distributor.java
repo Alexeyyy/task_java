@@ -1,4 +1,5 @@
 package task_2;
+
 /*
 * Класс, рассчитывающий распределение файлов по потокам
 * */
@@ -11,7 +12,9 @@ public class Distributor {
         threadsQuantity = threadsCount;
     }
 
-    //Получаем распределение числа файлов и потоков
+    /*
+    * "Карта" распределения числа обрабатываемых файлов на поток.
+    * */
     public int[] getDistribution() {
         int [] distribution;
         if(threadsQuantity < filesQuantity) {
@@ -19,10 +22,11 @@ public class Distributor {
             int filesForThread = filesQuantity/threadsQuantity;
 
             for(int i = 0; i < distribution.length; i++) {
-                if(i != distribution.length - 1)
+                if(i != distribution.length - 1) {
                     distribution[i] = filesForThread;
-                else
+                } else {
                     distribution[i] = filesQuantity - filesForThread * (distribution.length - 1);
+                }
             }
         } else {
             while(threadsQuantity != filesQuantity) {
