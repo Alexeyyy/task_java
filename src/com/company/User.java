@@ -1,51 +1,41 @@
 package com.company;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-/**
- * Created by 1 on 08.09.2014.
- */
 public class User {
     //Поля
     private String name;
-    private String login;
-    private String password;
+    private double money;
     private Shop shop;
     private ArrayList<SportsItem> cart;
 
+    public double getMoney() { return money; }
+    public ArrayList<SportsItem> getCart() { return cart; }
+
     //Конструкторы
-    public User() {
-    }
+    public User() { }
 
     public User(String n) {
         name = n;
         cart = new ArrayList<SportsItem>();
     }
 
-    public boolean Register() {
+    public boolean visit() {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Enter shop name, where you want to be registered: ");
+            System.out.print("Введите название магазина, систему которого вы хотите посетить: ");
             String shopName = br.readLine();
-            System.out.println(shopName);
 
             shop = Utilities.searchShop(shopName);
-            //Если магазин существует, тогда продолжаем регистрацию
-            if (shop != null) {
-                System.out.print("Enter your login: ");
-                login = br.readLine();
-                System.out.print("Enter your password: ");
-                password = br.readLine();
-            } else {
-                System.out.println("This shop doesn't exist! Would you  like to repeat registration? (y/n)");
+
+            if (shop == null) {
+                System.out.println("Такого магазина нет в реестре. Хотите повторить вход? (y/n)");
                 String reply = br.readLine();
                 if (reply.equals("y")) {
-                    Register();
+                    visit();
                 } else if (reply.equals("n")) {
                     return false;
                 } else {
@@ -58,7 +48,30 @@ public class User {
         return true;
     }
 
-    public boolean AddToCart() {
-        return true;
+    public void addToCart(SportsItem item) {
+        this.cart.add(item);
+    }
+
+    public void printCart() {
+        System.out.println("===Печать корзины===");
+
+        if(cart.isEmpty()) {
+            System.out.println("Ваша корзина пуста");
+            return;
+        }
+
+        for(SportsItem item : cart) {
+            System.out.println(item.title + " --- " + item.brand + " --- " + item.price);
+        }
+
+        System.out.println("=====================");
+    }
+
+    public void putCash(double amount) {
+        this.money += amount;
+    }
+
+    public void deriveCash(double amount) {
+        this.money -= amount;
     }
 }

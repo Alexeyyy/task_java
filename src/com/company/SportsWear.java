@@ -21,8 +21,8 @@ public class SportsWear extends SportsItem {
     //Конструкторы
     public SportsWear() { }
 
-    public SportsWear(String t, String d, String b, BigDecimal p, String s, boolean hasS) {
-        super(t,d,b,p);
+    public SportsWear(String t, String b, double p, String s, boolean hasS) {
+        super(t,b,p);
         size = s;
         hasSleeves = hasS;
     }

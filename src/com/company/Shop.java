@@ -2,14 +2,10 @@ package com.company;
 
 import java.util.ArrayList;
 
-/**
- * Created by 1 on 08.09.2014.
- */
 public class Shop {
     //Поля
     private String name;
     private ArrayList<SportsItem> items;
-    private ArrayList<User> users;
 
     public String getName() {
         return name;
@@ -19,21 +15,25 @@ public class Shop {
         return items;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
     //Конструкторы
     public Shop() { }
 
     public Shop(String n, ArrayList<SportsItem> goods) {
         name = n;
         items = goods;
-        users = new ArrayList<User>();
     }
 
     //Методы
-    public boolean Sell() {
-        return true;
+    public void sell(int goodIndex)
+    {
+        this.items.remove(goodIndex);
+    }
+
+    public void printItemsList() {
+        System.out.println("===Список товаров в магазине " + this.getName() + "===");
+        for(int i = 0; i < items.size(); i++) {
+            System.out.println(i + ". --- " + items.get(i).title + " --- " + items.get(i).brand);
+        }
+        System.out.println();
     }
 }
