@@ -1,13 +1,9 @@
 package com.company;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by 1 on 08.09.2014.
- */
 public class Utilities {
     public static ArrayList<Shop> shopsCatalog = new ArrayList<Shop>();
 
@@ -39,7 +35,10 @@ public class Utilities {
         System.out.println("=================================");
     }
 
-    public static void printActionList() {
+    public static void printActionList(User user) {
+        System.out.println("======================");
+        System.out.println("Пользователь - " + user.getName());
+        System.out.println("Текущий счет(руб.) - " + user.getMoney());
         System.out.println("=======Действия=======");
         System.out.println("1 - Войти в магазин");
         System.out.println("2 - Положить деньги на счет");

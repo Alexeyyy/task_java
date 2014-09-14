@@ -35,7 +35,7 @@ public class Main {
                 user = new User(br.readLine());
             }
 
-            Utilities.printActionList();
+            Utilities.printActionList(user);
             System.out.print("Введите действие: ");
             action = Integer.parseInt(br.readLine());
 

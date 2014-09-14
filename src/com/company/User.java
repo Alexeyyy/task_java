@@ -12,6 +12,7 @@ public class User {
     private Shop shop;
     private ArrayList<SportsItem> cart;
 
+    public String getName() { return name; }
     public double getMoney() { return money; }
     public ArrayList<SportsItem> getCart() { return cart; }
 
