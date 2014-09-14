@@ -1,10 +1,8 @@
 package com.company;
 
-import java.math.BigDecimal;
-
-/**
- * Created by 1 on 08.09.2014.
- */
+/*
+* Класс, наследник SportsItem. Описывает спортивную одежду.
+* */
 public class SportsWear extends SportsItem {
     //Поля
     protected String size;

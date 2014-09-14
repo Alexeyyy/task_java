@@ -1,5 +1,9 @@
 package com.company;
 
+/*
+* Класс, наследник SportsItem. Описывает спортивную обувь.
+* */
+
 public class SportsShoes extends SportsItem {
     //Поля
     protected int size;

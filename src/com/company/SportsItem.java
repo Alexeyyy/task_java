@@ -1,5 +1,8 @@
 package com.company;
 
+/*
+* Класс, описывающий единицу спортивного инвентаря
+* */
 public class SportsItem {
     //Поля
     protected String title;

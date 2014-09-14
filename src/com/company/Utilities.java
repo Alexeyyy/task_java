@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*
+* Static класс, содержащий различные утилилиты.
+* */
+
 public class Utilities {
     public static ArrayList<Shop> shopsCatalog = new ArrayList<Shop>();
 

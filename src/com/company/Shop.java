@@ -2,6 +2,9 @@ package com.company;
 
 import java.util.ArrayList;
 
+/*
+* Класс, описывающий магазин. Товары содержатся в коллекции типа <SportsItem> items.
+* */
 public class Shop {
     //Поля
     private String name;

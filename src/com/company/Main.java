@@ -9,19 +9,24 @@ public class Main {
     public static void main(String[] args) throws Exception{
         Utilities.shopsCatalog = new ArrayList<Shop>();
 
-        ArrayList<SportsItem> items = new ArrayList<SportsItem>();
-        items.add(new SportsWear("Куртка", "Bogner", 10000, "XXL", true));
-        items.add(new SportsWear("Футболка", "Reebok", 1000, "M", false));
-        items.add(new SportsWear("Спортивный костюм", "Abibas", 3000, "S", true));
-        items.add(new SportsWear("Перчатки", "Adidas", 8000, "XL", false));
-        items.add(new SportsWear("Толстовка", "Völkl", 5000, "M", true));
-        items.add(new SportsWear("Шапка", "КНР", 200, "M", false));
-        items.add(new SportsShoes("Бутсы", "Star", 2000, 42, true));
-        items.add(new SportsShoes("Сапоги для рыбалки", "Fishman", 4000, 45, false));
+        ArrayList<SportsItem> firstBatch = new ArrayList<SportsItem>();
+        ArrayList<SportsItem> secondBatch = new ArrayList<SportsItem>();
+        ArrayList<SportsItem> thirdBatch = new ArrayList<SportsItem>();
 
-        Utilities.registerShop(new Shop("Adidas", items));
-        Utilities.registerShop(new Shop("Nike", items));
-        Utilities.registerShop(new Shop("Reebok", items));
+        firstBatch.add(new SportsWear("Куртка", "Bogner", 10000, "XXL", true));
+        firstBatch.add(new SportsWear("Футболка", "Reebok", 1000, "M", false));
+        firstBatch.add(new SportsWear("Спортивный костюм", "Abibas", 3000, "S", true));
+
+        secondBatch.add(new SportsWear("Перчатки", "Adidas", 8000, "XL", false));
+        secondBatch.add(new SportsWear("Толстовка", "Völkl", 5000, "M", true));
+        secondBatch.add(new SportsWear("Шапка", "КНР", 200, "M", false));
+
+        thirdBatch.add(new SportsShoes("Бутсы", "Star", 2000, 42, true));
+        thirdBatch.add(new SportsShoes("Сапоги для рыбалки", "Fishman", 4000, 45, false));
+
+        Utilities.registerShop(new Shop("Adidas", firstBatch));
+        Utilities.registerShop(new Shop("Nike", secondBatch));
+        Utilities.registerShop(new Shop("Reebok", thirdBatch));
         Utilities.printRegisteredShops();
 
         User user = null;

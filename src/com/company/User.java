@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class User {
+/*
+* Класс, описывающий пользователя системы
+*/
+
+ public class User {
     //Поля
     private String name;
     private double money;
