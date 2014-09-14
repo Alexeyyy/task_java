@@ -53,6 +53,7 @@ public class Main {
                         for(String item : values) {
                             System.out.print(item + " ");
                         }
+                        System.out.println();
                     }
                     break;
                 case 5:
