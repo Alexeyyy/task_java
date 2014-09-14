@@ -6,10 +6,9 @@ public class SparseArray {
     private SAItem start;
     private SAItem last;
 
-    public SparseArray() {
+    public SparseArray() { }
 
-    }
-
+    //Вставка первого значения по умолчанию
     private void InitArray(String value) {
         start = new SAItem(0, value);
         start.next = null;
@@ -17,7 +16,16 @@ public class SparseArray {
         last = start;
     }
 
-    //Вставляет элемент в начало "массива"
+    //Вставка первого значения по умолчанию
+    private void InitArray(int key, String value) {
+        start = new SAItem(key, value);
+        start.next = null;
+        start.prev = null;
+        last = start;
+    }
+
+
+    //Вставляет элемент в начало " разряженного массива"
     public void insertToStart(String value) {
         if (start == null) {
             InitArray(value);
@@ -30,7 +38,7 @@ public class SparseArray {
         }
     }
 
-    //Вставляет элемент в конец "массива"
+    //Вставляет элемент в конец "разряженного массива"
     public void insertToEnd(String value) {
         if(last == null) {
             InitArray(value);
@@ -43,18 +51,22 @@ public class SparseArray {
         }
     }
 
-    public ArrayList<String> searchByKey(int key) {
+    //получает значение(я) по ключу
+    public ArrayList<String> getByKey(int key) {
         SAItem fromStart = start;
         SAItem fromEnd = last;
         ArrayList<String> values = new ArrayList<String>();
 
         while(fromStart.next != null && fromEnd.prev != null) {
+            if(fromEnd.key < fromStart.key) {
+                return values;
+            }
+
             if(key == fromStart.key) {
                 values.add(fromStart.data);
                 while(fromStart.next != null && fromStart.next.key == key) {
                     fromStart = fromStart.next;
                     values.add(fromStart.data);
-                    System.out.println("1");
                 }
                 break;
             } else if(key == fromEnd.key) {
@@ -62,7 +74,6 @@ public class SparseArray {
                 while(fromEnd.prev != null && fromEnd.prev.key == key) {
                     fromEnd = fromEnd.prev;
                     values.add(fromEnd.data);
-                    System.out.println("2");
                 }
                 break;
             }
@@ -77,7 +88,12 @@ public class SparseArray {
     //Производит постановку элемента по произвольному ключу
     public void insertElement(int key, String value) {
         SAItem item = new SAItem(key,value);
-        //добавить в конец
+
+        if(start == null) {
+            InitArray(key, value);
+            return;
+        }
+
         if(key >= last.key) {
             last.next = item;
             item.prev = last;
@@ -111,7 +127,13 @@ public class SparseArray {
                         fromStart.next.prev = fromStart.prev;
                         fromStart = fromStart.next;
                     } else {
-                        fromStart = fromStart.next;
+                        if(fromStart.next != null) {
+                            fromStart = fromStart.next;
+                        } else {
+                            start = last = null;
+                            return; //массив пуст
+                        }
+
                         fromStart.prev = null;
                         start = fromStart;
                     }
@@ -124,7 +146,12 @@ public class SparseArray {
                         fromEnd.prev.next = fromEnd.next;
                         fromEnd = fromEnd.prev;
                     } else {
-                        fromEnd = fromEnd.prev;
+                        if(fromEnd.prev != null) {
+                            fromEnd = fromEnd.prev;
+                        } else {
+                            start = last = null;
+                            return; //массив пуст
+                        }
                         fromEnd.next = null;
                         last = fromEnd;
                     }
@@ -137,17 +164,18 @@ public class SparseArray {
         }
     }
 
+    //Печатает "разряженный массив"
     public void printSparseArray() {
         SAItem item = start;
 
-        if(start == null)
+        if(start == null) {
+            System.out.println("Массив пуст!");
             return;
+        }
 
         do {
             System.out.println(item.key + " " + item.data);
             item = item.next;
         } while(item != null);
-
-        System.out.println("Finished!");
     }
 }
